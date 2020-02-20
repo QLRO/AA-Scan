@@ -31,7 +31,9 @@ print("Serial connection established on {name}".format(name=serialConnection.nam
 socketSendCommands = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 socketSendCommands.connect((serverAddress,serverPort))
 
-for i in range(180):
+nPhotos=input("How many photos to take?")
+
+for i in range(nPhotos+1):
     time.sleep(3)
     socketSendCommands.send("chez".encode())
     serialConnection.write("go\n".encode())
