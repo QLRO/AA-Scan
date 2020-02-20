@@ -23,6 +23,7 @@ import time
 import socket
 
 droid = androidhelper.Android()
+droid.wakeLockAcquireDim()
 
 dataReceived=""
 i=1
@@ -54,3 +55,4 @@ except:
     pass
 
 socketSendCommands.close()
+droid.wakeLockRelease()
