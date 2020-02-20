@@ -21,7 +21,7 @@
 import serial,time
 import socket
 
-serverAddress="192.168.1.3"    # Put your Phone IP here
+serverAddress=""    # Put your Phone IP here
 serverPort=2021
 bufferSize=12
 
