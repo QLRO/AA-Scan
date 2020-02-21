@@ -42,7 +42,7 @@ try:
     while True:
         dataReceived=connection.recv(bufferSize).decode()
         if dataReceived!="":
-            print("Received:{data}".format(data=dataReceived))
+            print("{count} photos taken!".format(count=i))
             if dataReceived=="chez":
                 path = '/storage/emulated/0/qpython/tmp/'
                 path += str(i)
@@ -56,3 +56,4 @@ except:
 
 socketSendCommands.close()
 droid.wakeLockRelease()
+print("DONE! The photos will be available at /qpython/tmp folder!")
