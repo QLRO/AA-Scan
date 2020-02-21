@@ -27,6 +27,8 @@ const int motorPin4=5;
 const int stepsScale = 2400;
 Stepper stepper1(stepsScale, motorPin1,motorPin3,motorPin2,motorPin4);
 
+int noSteps=180;
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -37,9 +39,14 @@ void loop() {
   // put your main code here, to run repeatedly:
   while(Serial.available() > 0 ){
     String str = Serial.readString();
-    if(str == "go\n"){
-      stepper1.step(4.4*stepsScale/180);
+    if(str==""){
+    }
+    else if(str == "go\n"){
+      stepper1.step(4.4*stepsScale/noSteps);
       delay(500);
+    }
+    else {
+      noSteps=(str.substring(0,str.length()-1)).toInt();
     }
   }
 }

@@ -21,21 +21,27 @@
 import serial,time
 import socket
 
-serverAddress="192.168.1.3"    # Put your Phone IP here
+serverAddress=""    # Put your Phone IP here
 serverPort=2021
 bufferSize=12
+nPhotos=180                      # How many photos do you want? (~180 for best quality)
 
 serialConnection = serial.Serial('/dev/ttyACM0',9600)   # Change this to COMx if you are on Windows, COMx is the port where Arduino serial is connected
 print("Serial connection established on {name}".format(name=serialConnection.name))
+time.sleep(3)
+serialConnection.write((str(nPhotos)+"\n").encode())
+time.sleep(1)
 
 socketSendCommands = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 socketSendCommands.connect((serverAddress,serverPort))
 
-for i in range(180):
-    time.sleep(3)
+for i in range(nPhotos):
     socketSendCommands.send("chez".encode())
     serialConnection.write("go\n".encode())
+    print("Progress: {count}/{total}".format(count=i+1,total=nPhotos))
+    time.sleep(3)
 
+print("DONE! The photos will be available at /qpython/tmp folder!")
 time.sleep(1)
 serialConnection.close()
 socketSendCommands.send("quit".encode())
