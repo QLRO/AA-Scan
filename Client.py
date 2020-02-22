@@ -21,7 +21,7 @@
 import serial,time
 import socket
 
-serverAddress=""    # Put your Phone IP here
+serverAddressList=[""]    # Put your Phone IP here, multiple IPs are supported now (untested)!
 serverPort=2021
 bufferSize=12
 nPhotos=180                      # How many photos do you want? (~180 for best quality)
@@ -32,16 +32,21 @@ time.sleep(3)
 serialConnection.write((str(nPhotos)+"\n").encode())
 time.sleep(1)
 
-socketSendCommands = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-socketSendCommands.connect((serverAddress,serverPort))
+socketList=[]
+for server in serverAddressList:
+    socketSendCommands = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    socketSendCommands.connect((server,serverPort))
+    socketList.append(socketSendCommands)
 
 for i in range(nPhotos):
-    socketSendCommands.send("chez".encode())
+    for socketSendCommands in socketList:
+        socketSendCommands.send("chez".encode())
+    time.sleep(1.5)
     serialConnection.write("go\n".encode())
+    time.sleep(1.5)
     print("Progress: {count}/{total}".format(count=i+1,total=nPhotos))
-    time.sleep(3)
 
-print("DONE! The photos will be available at /qpython/tmp folder!")
+print("DONE!")
 time.sleep(1)
 serialConnection.close()
 socketSendCommands.send("quit".encode())
