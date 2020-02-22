@@ -24,7 +24,7 @@ import socket
 serverAddressList=[""]    # Put your Phone IP here, multiple IPs are supported now (untested)!
 serverPort=2021
 bufferSize=12
-nPhotos=20                      # How many photos do you want? (~180 for best quality)
+nPhotos=180                      # How many photos do you want? (~180 for best quality)
 
 serialConnection = serial.Serial('/dev/ttyACM0',9600)   # Change this to COMx if you are on Windows, COMx is the port where Arduino serial is connected
 print("Serial connection established on {name}".format(name=serialConnection.name))
