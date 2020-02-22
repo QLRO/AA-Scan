@@ -30,8 +30,10 @@ i=1
 serverAddress=""    # Put your Phone IP here
 serverPort=2021
 bufferSize=12
+photoStoragePath='/storage/emulated/0/qpython/tmp/' # You can change where the photos are stored here!
 
 socketSendCommands = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+socketSendCommands.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 socketSendCommands.bind((serverAddress,serverPort))
 socketSendCommands.listen(1)
 print("Sever {ip} opened at port {port}\n".format(ip=serverAddress,port=serverPort))
@@ -42,12 +44,12 @@ try:
     while True:
         dataReceived=connection.recv(bufferSize).decode()
         if dataReceived!="":
-            print("{count} photos taken!".format(count=i))
             if dataReceived=="chez":
-                path = '/storage/emulated/0/qpython/tmp/'
+                path = photoStoragePath
                 path += str(i)
                 path += '.png'
                 droid.cameraCapturePicture(path, True)
+                print("{count} photos taken!".format(count=i))
                 i=i+1
             if dataReceived=="quit":
                 break
@@ -56,4 +58,4 @@ except:
 
 socketSendCommands.close()
 droid.wakeLockRelease()
-print("DONE! The photos will be available at /qpython/tmp folder!")
+print("DONE! The photos are stored at {path}!".format(path=photoStoragePath))
