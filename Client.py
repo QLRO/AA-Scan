@@ -49,5 +49,6 @@ for i in range(nPhotos):
 print("DONE!")
 time.sleep(1)
 serialConnection.close()
-socketSendCommands.send("quit".encode())
-socketSendCommands.close()
+for socketSendCommands in socketList:
+    socketSendCommands.send("quit".encode())
+    socketSendCommands.close()
