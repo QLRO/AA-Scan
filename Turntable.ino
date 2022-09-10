@@ -42,7 +42,7 @@ void loop() {
     if(str==""){
     }
     else if(str == "go\n"){
-      stepper1.step(4.4*stepsScale/noSteps);
+      stepper1.step(4.4*stepsScale/noSteps);  // 4.4 is calculated from the gear ratio but I forgot how :(
       delay(500);
     }
     else {
